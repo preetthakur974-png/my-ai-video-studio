@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My AI Video Studio</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#10111b;color:white}
+header{text-align:center;padding:28px 15px;background:#191a2b}
+header h1{margin:0;color:#c5a6ff}
+header p{color:#c5c5d5}
+main{max-width:850px;margin:25px auto;padding:20px}
+.panel{background:#1d1e30;border:1px solid #383950;border-radius:16px;padding:22px;margin-bottom:18px}
+label{display:block;margin:14px 0 8px;font-weight:bold}
+input,button{width:100%;padding:13px;border-radius:9px;border:1px solid #55566d;background:#292a40;color:white}
+button{background:#8b5cf6;border:0;font-weight:bold;font-size:16px;cursor:pointer;margin-top:15px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.preview{max-width:100%;max-height:280px;display:block;margin:12px auto;border-radius:10px}
+.note{color:#b9b9ca;font-size:13px;line-height:1.6}
+#status{margin-top:15px;color:#ffd58a;line-height:1.5}
+</style>
+</head>
+<body>
+<header>
+<h1>✨ My AI Video Studio</h1>
+<p>Turn your photo into an AI motion video</p>
+</header>
+<main>
+<div class="panel">
+<h2>1. Upload Your Photo</h2>
+<label for="photo">Choose your photo</label>
+<input id="photo" type="file" accept="image/*">
+<img id="photoPreview" class="preview" hidden>
+</div>
+
+<div class="panel">
+<h2>2. Add Reference Video</h2>
+<label for="video">Upload reference video</label>
+<input id="video" type="file" accept="video/mp4,video/quicktime,video/webm">
+<video id="videoPreview" class="preview" controls hidden></video>
+<p class="note">Instagram reference video ko pehle apne device par video file ke roop mein save karke upload karein.</p>
+<label for="reel">Instagram Reel link (optional)</label>
+<input id="reel" type="url" placeholder="Paste Instagram Reel link">
+</div>
+
+<div class="panel">
+<h2>3. Create Your Video</h2>
+<p class="note">Photo aur reference video select karne ke baad AI generation engine connect karna hoga.</p>
+<button id="generate">Generate Video</button>
+<div id="status" role="status">AI engine abhi connect nahi hua hai. Agle setup step mein ise connect karenge.</div>
+</div>
+
+<div class="panel">
+<h2>4. Download</h2>
+<p class="note">AI video generate hone ke baad yahan MP4 download option dikhega.</p>
+<a id="download" hidden download="my-ai-video.mp4">
+<button type="button">Download MP4</button>
+</a>
+</div>
+</main>
+<script>
+const photo=document.getElementById('photo');
+const video=document.getElementById('video');
+photo.addEventListener('change',()=>{
+ const f=photo.files[0];
+ if(!f)return;
+ const img=document.getElementById('photoPreview');
+ img.src=URL.createObjectURL(f);
+ img.hidden=false;
+});
+video.addEventListener('change',()=>{
+ const f=video.files[0];
+ if(!f)return;
+ const player=document.getElementById('videoPreview');
+ player.src=URL.createObjectURL(f);
+ player.hidden=false;
+});
+document.getElementById('generate').addEventListener('click',()=>{
+ const status=document.getElementById('status');
+ if(!photo.files.length||!video.files.length){
+ status.textContent='Pehle apni photo aur reference video dono upload karein.';
+ return;
+ }
+ status.textContent='Photo aur video ready hain. Actual AI generation ke liye cloud AI engine abhi connect karna baaki hai.';
+});
+</script>
+</body>
+</html>
